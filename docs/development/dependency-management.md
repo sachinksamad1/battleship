@@ -1,35 +1,57 @@
 # Dependency Management
 
-This document lists the core libraries used in the Battleship project and the criteria for adding new ones.
+This project uses **pnpm** and **Turborepo** to manage dependencies and workspace orchestration.
 
-## 1. Core Production Dependencies
+## 📦 Package Manager: pnpm
 
-### Frontend
-- **SvelteKit**: Full-stack framework for building the UI and routing.
-- **Tailwind CSS**: Utility-first CSS framework for rapid styling.
-- **howler.js**: Framework-agnostic audio library for cross-browser sound support.
-- **svelte-dnd-action**: Svelte-native drag-and-drop library.
-- **Socket.IO Client**: Real-time communication layer.
+`pnpm` is the chosen package manager for its speed, space efficiency, and robust support for monorepo workspaces.
 
-### Backend
-- **Node.js**: Server runtime.
-- **Socket.IO**: WebSocket server implementation.
-- **TypeScript**: Ensuring type safety across the entire stack.
+### Corepack
 
-### Testing
-- **Vitest**: Blazing fast unit and integration testing framework.
+The project is configured to use **Corepack** to ensure the correct `pnpm` version is used across all development environments.
 
-## 2. Selection Criteria
+```bash
+corepack enable
+```
 
-Before adding a new dependency, we evaluate:
-1. **Svelte Compatibility**: Prefer Svelte-native libraries or framework-agnostic ones.
-2. **Bundle Size**: Avoid large, monolithic libraries if a smaller alternative exists.
-3. **Maintenance**: Check for active development and security updates.
-4. **License**: Must be MIT or Apache-2.0 compatible.
+### Common Commands
 
-## 3. Explicitly Excluded Libraries
+- **Install Dependencies:** `pnpm install`
+- **Add a Package to a specific app:** `pnpm add <package> -F <app-name>`
+  - Example: `pnpm add socket.io -F @battleship/server`
+- **Add a Dev Dependency:** `pnpm add -D <package> -F <app-name>`
+- **Update Packages:** `pnpm update`
 
-The following libraries are **banned** from the project to maintain consistency:
-- `dnd-kit` (React-only)
-- `Framer Motion` (React-centric)
-- `Zustand` (Use Svelte stores instead)
+## 🏎️ Orchestration: Turborepo
+
+**Turborepo** manages the build pipeline and caches task outputs to speed up development.
+
+### Pipeline Configuration
+
+The pipeline is defined in `turbo.json` and includes tasks for:
+
+- `build`: Compiles all applications.
+- `dev`: Runs development servers in parallel.
+- `test`: Executes test suites.
+- `lint`: Checks code style.
+- `check`: Runs Svelte type checking.
+
+### Execution
+
+Turborepo commands are proxied through the root `package.json` scripts:
+
+```bash
+pnpm dev   # Runs turbo run dev
+pnpm build # Runs turbo run build
+```
+
+## 📂 Workspace Structure
+
+- `apps/web`: `@battleship/web` (SvelteKit)
+- `apps/server`: `@battleship/server` (Node.js)
+
+Dependencies are shared via the `pnpm` workspace, but each application maintains its own `package.json` for specific needs.
+
+## 🔄 Version Management
+
+We use **Semantic Versioning (SemVer)** for all internal and external dependencies. The root `package.json` specifies the supported `packageManager` version to prevent environment drift.

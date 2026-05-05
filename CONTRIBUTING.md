@@ -68,12 +68,13 @@ By participating in this project, you agree to abide by our [Code of Conduct](CO
 
 3. **Add upstream remote**
    ```bash
-   git remote add upstream https://github.com/original-owner/battleship.git
+   git remote add upstream https://github.com/sachinksamad1/battleship.git
    ```
 
 4. **Install dependencies**
    ```bash
-   npm install
+   corepack enable
+   pnpm install
    ```
 
 5. **Create a branch**
@@ -88,9 +89,9 @@ By participating in this project, you agree to abide by our [Code of Conduct](CO
 3. **Update documentation** if needed
 4. **Test your changes**
    ```bash
-   npm run test
-   npm run lint
-   npm run check
+   pnpm test
+   pnpm lint
+   pnpm check
    ```
 
 ### Keeping Up to Date

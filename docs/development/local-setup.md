@@ -1,55 +1,89 @@
 # Local Development Setup
 
-This guide provides detailed instructions for setting up your local environment for contributing to the Battleship project.
+This guide provides instructions for setting up the Battleship project on your local machine for development.
 
-## 1. Environment Requirements
+## 📋 Prerequisites
 
-- **Runtime**: Node.js 18.x or 20.x
-- **Package Manager**: npm (v9+) or pnpm
-- **Editor**: VS Code (recommended) with Svelte and Tailwind CSS extensions.
+Ensure you have the following tools installed:
 
-## 2. Step-by-Step Setup
+- **Git** — For version control.
+- **vfox** — For Node.js version management.
+- **Node.js 25.9.0** — Managed via `.node-version` and `vfox`.
+- **pnpm 10+** — Enabled via Corepack.
 
-### Step 1: Clone and Install
+## 🛠️ Step-by-Step Setup
+
+### 1. Clone the Repository
+
 ```bash
-git clone https://github.com/your-username/battleship.git
+git clone https://github.com/sachinksamad1/battleship.git
 cd battleship
-npm install
 ```
 
-### Step 2: Configure Environment
-Copy the example environment file:
+### 2. Node.js Version Management (vfox)
+
+The project uses a `.node-version` file. To ensure you're using the correct Node.js version with `vfox`:
+
 ```bash
-cp .env.example .env
+# If you don't have the version installed
+vfox install node@25.9.0
+
+# vfox will automatically switch based on the .node-version file in the root
+node -v # Should output v25.9.0
 ```
-Ensure `PUBLIC_SOCKET_URL` is set to `http://localhost:3000` for local testing.
 
-### Step 3: Run Development Servers
-We recommend running the server and client in separate terminal windows:
+### 3. Install Dependencies (pnpm)
 
-**Terminal 1 (Backend):**
+We use `pnpm` as our package manager within a Turborepo monorepo.
+
 ```bash
-npm run dev:server
+corepack enable
+pnpm install
 ```
 
-**Terminal 2 (Frontend):**
+### 4. Running the Development Environment
+
+Start both the frontend and backend servers concurrently:
+
 ```bash
-npm run dev:client
+pnpm dev
 ```
 
-## 3. Working with Scripts
+- **Web Frontend:** [http://localhost:5173](http://localhost:5173)
+- **Backend Server:** [http://localhost:3000](http://localhost:3000)
 
-| Command | Description |
-| :--- | :--- |
-| `npm run build` | Builds both the client and server for production. |
-| `npm run test` | Runs the Vitest suite for the entire project. |
-| `npm run lint` | Checks for linting errors across the codebase. |
-| `npm run format` | Automatically formats code using Prettier. |
+## 🧪 Running Tests & Checks
 
-## 4. Debugging
+### Unit Tests
+```bash
+pnpm test
+```
 
-### Server Logs
-The backend uses a standard logging utility. You can increase verbosity by setting `DEBUG=battleship:*` in your `.env`.
+### Linting
+```bash
+pnpm lint
+```
 
-### Browser DevTools
-Use the **Svelte DevTools** extension to inspect component state and the **Network** tab (WS filter) to monitor Socket.IO traffic.
+### Type Checking
+```bash
+pnpm check
+```
+
+## 📂 Project Reorganization
+
+The project is structured as a monorepo:
+
+- `/apps/web` — Svelte 5 frontend.
+- `/apps/server` — Node.js backend.
+- `/docs` — Documentation and design files.
+- `/reference` — PRD and API specifications.
+
+## 🚀 Building for Production
+
+To generate production builds for all applications:
+
+```bash
+pnpm build
+```
+
+The outputs will be in `apps/web/.svelte-kit` and `apps/server/dist`.
