@@ -3,6 +3,7 @@
   import { placementStore, addPlacedShip, removePlacedShip } from '../../stores/placementStore';
   import { validatePlacement } from '../../game/engine/placement';
   import { createBoard } from '../../game/engine/board';
+  import { audioManager } from '../../audio/audioManager';
 
   let hoveredCoord = $state<{ x: number, y: number } | null>(null);
   
@@ -46,6 +47,7 @@
         coord: hoveredCoord,
         orientation: $placementStore.currentOrientation
       });
+      audioManager.play('thud');
     }
   }
 

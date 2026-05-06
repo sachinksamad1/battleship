@@ -5,6 +5,7 @@ import { aiStore, resetAI } from '../stores/aiStore';
 import { resolveAttack } from './engine/attack';
 import { isGameOver } from './engine/win';
 import { socketStore, emitAttack } from '../socket/client';
+import { audioManager } from '../audio/audioManager';
 import type { Coordinate } from './types';
 import * as Comlink from 'comlink';
 import type { AIEngineWorker } from './ai/aiWorker';
@@ -81,9 +82,19 @@ export async function handleAttack(targetId: 'player' | 'enemy', coord: Coordina
   const targetData = get(targetStore);
 
   try {
+    // Sound: Cannon Fire
+    audioManager.play('cannon');
+
     const result = resolveAttack(targetData.board, coord);
     targetStore.updateBoard(result.board);
     
+    // Sound: Hit or Miss
+    if (result.result === 'hit') {
+      audioManager.play('explosion');
+    } else {
+      audioManager.play('splash');
+    }
+
     if (result.shipSunk) {
       const updatedShips = targetData.ships.map(s => 
         s.id === result.shipSunk ? { ...s, sunk: true } : s
@@ -94,6 +105,7 @@ export async function handleAttack(targetId: 'player' | 'enemy', coord: Coordina
     if (isGameOver(get(targetStore).ships)) {
       setWinner(get(gameStore).turn);
       setPhase('result');
+      audioManager.play('victory');
       return;
     }
 
@@ -125,11 +137,21 @@ async function handleAiTurn() {
   const currentAiState = get(aiStore);
   
   try {
+    // Sound: Cannon Fire (AI)
+    audioManager.play('cannon');
+
     const move = await aiApi.selectAiMove(playerBoard, currentAiState.difficulty, currentAiState);
     const result = resolveAttack(playerBoard, move);
 
     // Update player board
     playerStore.updateBoard(result.board);
+
+    // Sound: Hit or Miss (AI)
+    if (result.result === 'hit') {
+      audioManager.play('explosion');
+    } else {
+      audioManager.play('splash');
+    }
 
     if (result.shipSunk) {
       const updatedShips = get(playerStore).ships.map(s => 
@@ -146,6 +168,7 @@ async function handleAiTurn() {
     if (isGameOver(get(playerStore).ships)) {
       setWinner('enemy');
       setPhase('result');
+      audioManager.play('defeat');
       return;
     }
 

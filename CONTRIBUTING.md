@@ -178,9 +178,9 @@ test(engine): add attack validation tests
 
 ### Before Submitting
 
-- [ ] Tests pass (`npm run test`)
-- [ ] Lint passes (`npm run lint`)
-- [ ] Type check passes (`npm run check`)
+- [ ] Tests pass (`pnpm test`)
+- [ ] Lint passes (`pnpm lint`)
+- [ ] Type check passes (`pnpm check`)
 - [ ] Documentation updated (if needed)
 - [ ] Commits follow conventional commits
 

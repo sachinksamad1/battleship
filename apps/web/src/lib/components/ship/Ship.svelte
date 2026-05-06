@@ -1,15 +1,18 @@
 <script lang="ts">
   import type { ShipDefinition } from '../../game/types';
+  import { settingsStore } from '../../stores/settingsStore';
 
   let { 
     ship, 
     orientation = 'H', 
     isDragging = false,
+    sunk = false,
     ondoubleclick
   } = $props<{
     ship: ShipDefinition;
     orientation?: 'H' | 'V';
     isDragging?: boolean;
+    sunk?: boolean;
     ondoubleclick?: () => void;
   }>();
 
@@ -25,16 +28,20 @@
   };
 
   let gradient = $derived(shipColors[ship.id] || 'from-slate-500 to-slate-700');
+  let animationsEnabled = $derived($settingsStore.animationsEnabled);
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div 
   class="ship flex {orientation === 'V' ? 'flex-col' : 'flex-row'} gap-0 cursor-grab active:cursor-grabbing {isDragging ? 'opacity-50' : ''} drop-shadow-lg"
+  class:animate-sink={sunk && animationsEnabled}
+  class:opacity-40={sunk}
+  class:grayscale={sunk}
   ondblclick={ondoubleclick}
 >
   {#each lengthCells as _, i}
     <div 
-      class="w-10 h-10 border border-white/10 bg-gradient-to-br {gradient} relative overflow-hidden"
+      class="w-10 h-10 border border-white/10 bg-gradient-to-br {gradient} relative overflow-hidden transition-all duration-500"
       class:rounded-l-2xl={orientation === 'H' && i === 0}
       class:rounded-r-2xl={orientation === 'H' && i === ship.length - 1}
       class:rounded-t-2xl={orientation === 'V' && i === 0}
@@ -71,5 +78,24 @@
   .ship {
     width: max-content;
     height: max-content;
+    transition: opacity 1s ease, filter 1s ease;
+  }
+
+  @keyframes sink {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, 10px) rotate(-2deg); opacity: 0.4; }
+  }
+
+  .animate-sink {
+    animation: sink 1.5s ease-in-out forwards;
   }
 </style>

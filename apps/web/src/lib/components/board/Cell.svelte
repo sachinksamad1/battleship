@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { settingsStore } from '../../stores/settingsStore';
+
   let { x, y, hit = false, occupied = false, shipId = '', isEnemy = false, canAttack = false, onclick } = $props<{
     x: number;
     y: number;
@@ -33,6 +35,9 @@
   });
 
   let hoverClass = $derived(canAttack && !hit ? 'hover:bg-blue-400/40 cursor-pointer' : '');
+
+  // Svelte 5: Stores can be accessed with $ prefix
+  let animationsEnabled = $derived($settingsStore.animationsEnabled);
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -51,16 +56,18 @@
   {/if}
 
   {#if hit}
-    <div class="absolute inset-0 flex items-center justify-center animate-in zoom-in-50 duration-300">
+    <div class="absolute inset-0 flex items-center justify-center {animationsEnabled ? 'animate-in zoom-in-50 duration-300' : ''}">
       {#if occupied}
         <div class="relative w-full h-full flex items-center justify-center">
            <!-- Explosion effect -->
-           <div class="absolute w-4/5 h-4/5 bg-orange-500/20 rounded-full blur-sm"></div>
+           {#if animationsEnabled}
+             <div class="absolute w-4/5 h-4/5 bg-orange-500/20 rounded-full blur-sm animate-pulse"></div>
+           {/if}
            <span class="text-white font-black text-xl drop-shadow-md">✕</span>
         </div>
       {:else}
         <!-- Splash effect -->
-        <div class="h-2 w-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.8)]"></div>
+        <div class="h-2 w-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.8)] {animationsEnabled ? 'animate-bounce' : ''}"></div>
       {/if}
     </div>
   {/if}

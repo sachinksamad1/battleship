@@ -43,6 +43,12 @@ acceptable behavior and will take appropriate and fair corrective action in
 response to any behavior that they deem inappropriate, threatening, offensive,
 or harmful.
 
+Instances of abusive, harassing, or otherwise unacceptable behavior may be
+reported by contacting the project team at `github@sachins.slmail.me`. All
+complaints will be reviewed and investigated and will result in a response that
+is deemed necessary and appropriate to the circumstances. The project team is
+obligated to maintain confidentiality with regard to the reporter of an incident.
+
 ## Enforcement Guidelines
 
 Community leaders will follow these Community Impact Guidelines in determining

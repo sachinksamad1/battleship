@@ -66,8 +66,8 @@
     <PlacementGrid />
     
     {#if !isMultiplayer}
-      <div class="p-4 bg-slate-800/50 rounded-2xl border border-slate-700/50">
-        <label class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-3 block">Combat Difficulty</label>
+      <fieldset class="p-4 bg-slate-800/50 rounded-2xl border border-slate-700/50">
+        <legend class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-3 block">Combat Difficulty</legend>
         <div class="grid grid-cols-4 gap-2">
           {#each difficulties as diff}
             <button
@@ -80,7 +80,7 @@
             </button>
           {/each}
         </div>
-      </div>
+      </fieldset>
     {/if}
 
     <div class="flex gap-4">
