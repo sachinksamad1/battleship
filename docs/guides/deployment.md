@@ -53,12 +53,24 @@ Follow these steps to deploy the server backend:
 4.  **Build & Start Commands**:
     -   Railway usually detects the `start` script. Ensure it's set to `npm run start` (which should run the compiled JS in `dist/`).
     -   Ensure the Build command is `npm run build`.
-5.  **Environment Variables**:
+-   **Environment Variables**:
     -   Railway provides a `PORT` variable automatically; ensure your `apps/server/src/index.ts` uses `process.env.PORT`.
     -   Set `NODE_ENV` to `production`.
-6.  **Public Domain**: Go to **Settings** > **Networking** and click "Generate Domain" to get the public URL for your backend. This URL must be provided to the Vercel frontend.
+-   **Public Domain**: Go to **Settings** > **Networking** and click "Generate Domain" to get the public URL for your backend. This URL must be provided to the Vercel frontend.
 
-## 5. Environment Variables Overview
+## 5. Troubleshooting Railway Deployment
+
+If you encounter errors during the Railway deployment:
+
+### "Missing script: migrate"
+Railway may automatically attempt to run a database migration if it detects a database service in your project. Since this project uses an in-memory game state:
+1.  A dummy `"migrate": "echo 'No migrations to run'"` script has been added to `apps/server/package.json`.
+2.  Alternatively, ensure there are no "Pre-deploy" or "Custom Start" commands in the Railway Dashboard calling `npm run migrate`.
+
+### "npm warn config production Use --omit=dev instead"
+This is a deprecation warning from `npm` when `NODE_ENV=production` is set. It does not stop the build, but you can ignore it or update the build command in Railway to `npm install --omit=dev && npm run build` if you want to be explicit.
+
+## 6. Environment Variables Overview
 
 | Variable | Description | Location |
 | :--- | :--- | :--- |
