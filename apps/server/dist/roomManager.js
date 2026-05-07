@@ -11,17 +11,19 @@ export class RoomManager {
         const room = {
             id: roomId,
             joinCode,
-            players: [{
+            players: [
+                {
                     id: socket.id,
                     name: playerName,
                     socketId: socket.id,
                     ready: false,
                     board: createBoard(),
-                    ships: []
-                }],
+                    ships: [],
+                },
+            ],
             status: 'waiting',
             turn: null,
-            winner: null
+            winner: null,
         };
         this.rooms.set(roomId, room);
         this.socketToRoom.set(socket.id, roomId);
@@ -45,7 +47,7 @@ export class RoomManager {
             socketId: socket.id,
             ready: false,
             board: createBoard(),
-            ships: []
+            ships: [],
         };
         room.players.push(player);
         this.socketToRoom.set(socket.id, room.id);
@@ -58,7 +60,7 @@ export class RoomManager {
             return null;
         const room = this.rooms.get(roomId);
         if (room) {
-            room.players = room.players.filter(p => p.socketId !== socketId);
+            room.players = room.players.filter((p) => p.socketId !== socketId);
             if (room.players.length === 0) {
                 this.rooms.delete(roomId);
             }

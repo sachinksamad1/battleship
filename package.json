@@ -9,7 +9,8 @@
     "test": "turbo run test",
     "lint": "turbo run lint",
     "format": "turbo run format",
-    "check": "turbo run check"
+    "check": "turbo run check",
+    "pre-deploy": "pnpm run lint && pnpm run check && pnpm run test && pnpm run build"
   },
   "devDependencies": {
     "turbo": "^2.9.9"

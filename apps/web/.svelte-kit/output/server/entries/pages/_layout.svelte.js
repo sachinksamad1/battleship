@@ -1,15 +1,36 @@
-import { V as attr, o as head } from "../../chunks/dev.js";
+import { V as attr, c as store_get, i as derived, l as stringify, n as attr_class, o as head, u as unsubscribe_stores } from "../../chunks/dev.js";
+import { t as settingsStore } from "../../chunks/settingsStore.js";
 //#region src/lib/assets/favicon.svg
 var favicon_default = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20width='107'%20height='128'%20viewBox='0%200%20107%20128'%3e%3ctitle%3esvelte-logo%3c/title%3e%3cpath%20d='M94.157%2022.819c-10.4-14.885-30.94-19.297-45.792-9.835L22.282%2029.608A29.92%2029.92%200%200%200%208.764%2049.65a31.5%2031.5%200%200%200%203.108%2020.231%2030%2030%200%200%200-4.477%2011.183%2031.9%2031.9%200%200%200%205.448%2024.116c10.402%2014.887%2030.942%2019.297%2045.791%209.835l26.083-16.624A29.92%2029.92%200%200%200%2098.235%2078.35a31.53%2031.53%200%200%200-3.105-20.232%2030%2030%200%200%200%204.474-11.182%2031.88%2031.88%200%200%200-5.447-24.116'%20style='fill:%23ff3e00'/%3e%3cpath%20d='M45.817%20106.582a20.72%2020.72%200%200%201-22.237-8.243%2019.17%2019.17%200%200%201-3.277-14.503%2018%2018%200%200%201%20.624-2.435l.49-1.498%201.337.981a33.6%2033.6%200%200%200%2010.203%205.098l.97.294-.09.968a5.85%205.85%200%200%200%201.052%203.878%206.24%206.24%200%200%200%206.695%202.485%205.8%205.8%200%200%200%201.603-.704L69.27%2076.28a5.43%205.43%200%200%200%202.45-3.631%205.8%205.8%200%200%200-.987-4.371%206.24%206.24%200%200%200-6.698-2.487%205.7%205.7%200%200%200-1.6.704l-9.953%206.345a19%2019%200%200%201-5.296%202.326%2020.72%2020.72%200%200%201-22.237-8.243%2019.17%2019.17%200%200%201-3.277-14.502%2017.99%2017.99%200%200%201%208.13-12.052l26.081-16.623a19%2019%200%200%201%205.3-2.329%2020.72%2020.72%200%200%201%2022.237%208.243%2019.17%2019.17%200%200%201%203.277%2014.503%2018%2018%200%200%201-.624%202.435l-.49%201.498-1.337-.98a33.6%2033.6%200%200%200-10.203-5.1l-.97-.294.09-.968a5.86%205.86%200%200%200-1.052-3.878%206.24%206.24%200%200%200-6.696-2.485%205.8%205.8%200%200%200-1.602.704L37.73%2051.72a5.42%205.42%200%200%200-2.449%203.63%205.79%205.79%200%200%200%20.986%204.372%206.24%206.24%200%200%200%206.698%202.486%205.8%205.8%200%200%200%201.602-.704l9.952-6.342a19%2019%200%200%201%205.295-2.328%2020.72%2020.72%200%200%201%2022.237%208.242%2019.17%2019.17%200%200%201%203.277%2014.503%2018%2018%200%200%201-8.13%2012.053l-26.081%2016.622a19%2019%200%200%201-5.3%202.328'%20style='fill:%23fff'/%3e%3c/svg%3e";
+//#endregion
+//#region src/lib/components/ui/SettingsPanel.svelte
+function SettingsPanel($$renderer, $$props) {
+	var $$store_subs;
+	let { show = false, onclose } = $$props;
+	let settings = derived(() => store_get($$store_subs ??= {}, "$settingsStore", settingsStore));
+	if (show) {
+		$$renderer.push("<!--[0-->");
+		$$renderer.push(`<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity"><div class="animate-in fade-in zoom-in-95 w-full max-w-md rounded-3xl border border-slate-800 bg-slate-900 p-8 shadow-2xl duration-200"><div class="mb-8 flex items-center justify-between"><h2 class="text-2xl font-black tracking-tight text-white uppercase">System Settings</h2> <button class="p-2 text-slate-400 transition-colors hover:text-white" aria-label="Close Settings"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div> <div class="space-y-6"><div class="flex items-center justify-between rounded-2xl border border-slate-700/50 bg-slate-800/50 p-4"><div><h3 class="font-bold text-white">Audio Effects</h3> <p class="mt-0.5 text-xs text-slate-400">Toggle sound effects and themes</p></div> <button${attr_class(`relative h-8 w-14 rounded-full transition-colors ${stringify(settings().soundEnabled ? "bg-blue-600" : "bg-slate-700")}`)} aria-label="Toggle Sound"><div${attr_class(`absolute top-1 left-1 h-6 w-6 rounded-full bg-white transition-transform ${stringify(settings().soundEnabled ? "translate-x-6" : "translate-x-0")}`)}></div></button></div> <div class="flex items-center justify-between rounded-2xl border border-slate-700/50 bg-slate-800/50 p-4"><div><h3 class="font-bold text-white">Visual Effects</h3> <p class="mt-0.5 text-xs text-slate-400">Explosions, splashes, and transitions</p></div> <button${attr_class(`relative h-8 w-14 rounded-full transition-colors ${stringify(settings().animationsEnabled ? "bg-blue-600" : "bg-slate-700")}`)} aria-label="Toggle Animations"><div${attr_class(`absolute top-1 left-1 h-6 w-6 rounded-full bg-white transition-transform ${stringify(settings().animationsEnabled ? "translate-x-6" : "translate-x-0")}`)}></div></button></div></div> <div class="mt-10"><button class="w-full rounded-2xl bg-blue-600 py-4 font-bold text-white shadow-lg shadow-blue-900/20 transition-all hover:bg-blue-500 active:scale-95">Return to Combat</button></div></div></div>`);
+	} else $$renderer.push("<!--[-1-->");
+	$$renderer.push(`<!--]-->`);
+	if ($$store_subs) unsubscribe_stores($$store_subs);
+}
 //#endregion
 //#region src/routes/+layout.svelte
 function _layout($$renderer, $$props) {
 	let { children } = $$props;
+	let showSettings = false;
 	head("12qhfyh", $$renderer, ($$renderer) => {
 		$$renderer.push(`<link rel="icon"${attr("href", favicon_default)}/>`);
 	});
+	$$renderer.push(`<div class="min-h-screen bg-slate-950 font-sans text-slate-200 selection:bg-blue-500/30"><header class="fixed top-0 left-0 z-40 flex h-20 w-full items-center justify-between border-b border-white/5 bg-slate-950/80 px-8 backdrop-blur-md"><div class="flex items-center gap-3"><div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 shadow-lg shadow-blue-900/40"><span class="text-xl font-black text-white">B</span></div> <div><h1 class="text-xl leading-none font-black tracking-tighter text-white uppercase">Battleship</h1> <span class="text-[10px] font-bold tracking-[0.2em] text-slate-500 uppercase">Tactical Command</span></div></div> <div class="flex items-center gap-4"><button class="rounded-xl p-3 text-slate-400 transition-all hover:bg-white/5 hover:text-white" aria-label="Settings"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg></button></div></header> <main class="pt-20">`);
 	children($$renderer);
-	$$renderer.push(`<!---->`);
+	$$renderer.push(`<!----></main> `);
+	SettingsPanel($$renderer, {
+		show: showSettings,
+		onclose: () => showSettings = false
+	});
+	$$renderer.push(`<!----></div>`);
 }
 //#endregion
 export { _layout as default };

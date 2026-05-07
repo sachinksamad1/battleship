@@ -11,8 +11,8 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
     cors: {
         origin: '*',
-        methods: ['GET', 'POST']
-    }
+        methods: ['GET', 'POST'],
+    },
 });
 const roomManager = new RoomManager(io);
 const PORT = process.env.PORT || 3000;
@@ -26,7 +26,7 @@ io.on('connection', (socket) => {
         socket.emit('room_created', {
             roomId: room.id,
             playerId: socket.id,
-            joinCode: room.joinCode
+            joinCode: room.joinCode,
         });
     });
     socket.on('join_room', ({ joinCode, playerName }) => {
@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
         if (room) {
             io.to(room.id).emit('player_joined', {
                 roomId: room.id,
-                players: room.players.map(p => ({ id: p.id, name: p.name, ready: p.ready }))
+                players: room.players.map((p) => ({ id: p.id, name: p.name, ready: p.ready })),
             });
             if (room.players.length === 2) {
                 room.status = 'placement';
@@ -49,7 +49,7 @@ io.on('connection', (socket) => {
         const room = roomManager.getRoomBySocketId(socket.id);
         if (!room)
             return;
-        const player = room.players.find(p => p.socketId === socket.id);
+        const player = room.players.find((p) => p.socketId === socket.id);
         if (player) {
             player.ships = ships;
             player.ready = true;
@@ -63,13 +63,13 @@ io.on('connection', (socket) => {
                 });
             });
             socket.emit('ships_placed', { playerId: socket.id });
-            const allReady = room.players.length === 2 && room.players.every(p => p.ready);
+            const allReady = room.players.length === 2 && room.players.every((p) => p.ready);
             if (allReady) {
                 room.status = 'battle';
                 room.turn = room.players[0].id; // First player starts
                 io.to(room.id).emit('game_started', {
                     turn: room.turn,
-                    phase: 'battle'
+                    phase: 'battle',
                 });
             }
         }
@@ -78,20 +78,20 @@ io.on('connection', (socket) => {
         const room = roomManager.getRoomBySocketId(socket.id);
         if (!room || room.status !== 'battle' || room.turn !== socket.id)
             return;
-        const targetPlayer = room.players.find(p => p.socketId !== socket.id);
+        const targetPlayer = room.players.find((p) => p.socketId !== socket.id);
         if (!targetPlayer)
             return;
         try {
             const result = resolveAttack(targetPlayer.board, coordinate);
             targetPlayer.board = result.board;
             if (result.shipSunk) {
-                targetPlayer.ships = targetPlayer.ships.map(s => s.id === result.shipSunk ? { ...s, sunk: true } : s);
+                targetPlayer.ships = targetPlayer.ships.map((s) => s.id === result.shipSunk ? { ...s, sunk: true } : s);
             }
             io.to(room.id).emit('attack_result', {
                 attackerId: socket.id,
                 coordinate,
                 result: result.result,
-                shipSunk: result.shipSunk
+                shipSunk: result.shipSunk,
             });
             if (isGameOver(targetPlayer.ships)) {
                 room.status = 'finished';
@@ -103,7 +103,8 @@ io.on('connection', (socket) => {
             io.to(room.id).emit('turn_changed', { turn: room.turn });
         }
         catch (error) {
-            socket.emit('error', { message: error.message });
+            const message = error instanceof Error ? error.message : 'An unknown error occurred';
+            socket.emit('error', { message });
         }
     });
     socket.on('disconnect', () => {

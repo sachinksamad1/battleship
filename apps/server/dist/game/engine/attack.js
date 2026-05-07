@@ -32,6 +32,6 @@ export function resolveAttack(board, coord) {
     return {
         board: newBoard,
         result,
-        shipSunk
+        shipSunk,
     };
 }

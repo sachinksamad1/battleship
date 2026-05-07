@@ -12,7 +12,7 @@ export function validatePlacement(board, ship, coord, orientation) {
     for (let i = 0; i < ship.length; i++) {
         const currentCoord = {
             x: orientation === 'H' ? x + i : x,
-            y: orientation === 'V' ? y + i : y
+            y: orientation === 'V' ? y + i : y,
         };
         const cell = getCell(board, currentCoord);
         // Out of bounds
@@ -50,7 +50,7 @@ export function placeShip(board, ship, coord, orientation, shipId) {
         newBoard[currentY][currentX] = {
             ...newBoard[currentY][currentX],
             occupied: true,
-            shipId: id
+            shipId: id,
         };
     }
     return newBoard;

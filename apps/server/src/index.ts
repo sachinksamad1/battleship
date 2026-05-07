@@ -5,6 +5,7 @@ import cors from 'cors';
 import { RoomManager } from './roomManager.js';
 import { resolveAttack } from './game/engine/attack.js';
 import { isGameOver } from './game/engine/win.js';
+import type { ShipState, Coordinate } from './game/types.js';
 
 const app = express();
 app.use(cors());
@@ -64,8 +65,8 @@ io.on('connection', (socket) => {
       player.ready = true;
 
       // Populate board from ships for server-side validation
-      ships.forEach((ship) => {
-        ship.coordinates.forEach((coord) => {
+      ships.forEach((ship: ShipState) => {
+        ship.coordinates.forEach((coord: Coordinate) => {
           if (player.board[coord.y] && player.board[coord.y][coord.x]) {
             player.board[coord.y][coord.x].occupied = true;
             player.board[coord.y][coord.x].shipId = ship.id;

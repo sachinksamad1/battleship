@@ -85,6 +85,14 @@
       "_dev.js"
     ]
   },
+  "_settingsStore.js": {
+    "file": "chunks/settingsStore.js",
+    "name": "settingsStore",
+    "imports": [
+      "_dev.js",
+      "_index-server2.js"
+    ]
+  },
   "_shared.js": {
     "file": "chunks/shared.js",
     "name": "shared",
@@ -106,10 +114,11 @@
     "src": "src/routes/+layout.svelte",
     "isEntry": true,
     "imports": [
+      "_settingsStore.js",
       "_dev.js"
     ],
     "css": [
-      "_app/immutable/assets/_layout.BmtznnrR.css"
+      "_app/immutable/assets/_layout.Cp4-zFJW.css"
     ]
   },
   "src/routes/+page.svelte": {
@@ -119,11 +128,12 @@
     "isEntry": true,
     "imports": [
       "_index-server.js",
+      "_settingsStore.js",
       "_dev.js",
       "_index-server2.js"
     ],
     "css": [
-      "_app/immutable/assets/_page.Dqx8jZ7g.css"
+      "_app/immutable/assets/_page.qYODQcr0.css"
     ]
   }
 }
