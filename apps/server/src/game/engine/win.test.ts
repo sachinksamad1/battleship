@@ -8,7 +8,7 @@ describe('Win Condition Engine', () => {
     definitionId: 'destroyer',
     coordinates: [],
     hits: 0,
-    sunk
+    sunk,
   });
 
   it('should return false if at least one ship is not sunk', () => {

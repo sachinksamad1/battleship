@@ -15,7 +15,7 @@ describe('Board Engine', () => {
       for (let x = 0; x < BOARD_SIZE; x++) {
         expect(board[y][x]).toEqual({
           occupied: false,
-          hit: false
+          hit: false,
         });
       }
     }

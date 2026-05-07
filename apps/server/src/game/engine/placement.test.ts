@@ -41,7 +41,7 @@ describe('Ship Placement Engine', () => {
   it('should correctly place a ship and mark cells as occupied', () => {
     const board = createBoard();
     const boardWithShip = placeShip(board, destroyer, { x: 2, y: 2 }, 'H', 'dest-1');
-    
+
     expect(boardWithShip[2][2].occupied).toBe(true);
     expect(boardWithShip[2][2].shipId).toBe('dest-1');
     expect(boardWithShip[2][3].occupied).toBe(true);

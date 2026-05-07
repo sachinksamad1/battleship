@@ -13,7 +13,7 @@ export function createBoard(size: number = BOARD_SIZE): Board {
     for (let x = 0; x < size; x++) {
       row.push({
         occupied: false,
-        hit: false
+        hit: false,
       });
     }
     board.push(row);

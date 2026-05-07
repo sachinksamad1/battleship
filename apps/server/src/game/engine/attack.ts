@@ -38,9 +38,7 @@ export function resolveAttack(board: Board, coord: Coordinate): AttackResult {
   if (result === 'hit' && targetCell.shipId) {
     const shipId = targetCell.shipId;
     // Check if any other cells of this ship are still not hit
-    const isShipStillAlive = newBoard.some((row) =>
-      row.some((c) => c.shipId === shipId && !c.hit)
-    );
+    const isShipStillAlive = newBoard.some((row) => row.some((c) => c.shipId === shipId && !c.hit));
 
     if (!isShipStillAlive) {
       shipSunk = shipId;
@@ -50,6 +48,6 @@ export function resolveAttack(board: Board, coord: Coordinate): AttackResult {
   return {
     board: newBoard,
     result,
-    shipSunk
+    shipSunk,
   };
 }

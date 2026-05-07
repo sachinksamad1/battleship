@@ -22,7 +22,7 @@ export function validatePlacement(
   for (let i = 0; i < ship.length; i++) {
     const currentCoord: Coordinate = {
       x: orientation === 'H' ? x + i : x,
-      y: orientation === 'V' ? y + i : y
+      y: orientation === 'V' ? y + i : y,
     };
 
     const cell = getCell(board, currentCoord);
@@ -59,7 +59,9 @@ export function placeShip(
   shipId?: string
 ): Board {
   if (!validatePlacement(board, ship, coord, orientation)) {
-    throw new Error(`Invalid ship placement at (${coord.x}, ${coord.y}) with orientation ${orientation}`);
+    throw new Error(
+      `Invalid ship placement at (${coord.x}, ${coord.y}) with orientation ${orientation}`
+    );
   }
 
   // Create a deep copy of the board to remain "pure"
@@ -70,11 +72,11 @@ export function placeShip(
   for (let i = 0; i < ship.length; i++) {
     const currentX = orientation === 'H' ? x + i : x;
     const currentY = orientation === 'V' ? y + i : y;
-    
+
     newBoard[currentY][currentX] = {
       ...newBoard[currentY][currentX],
       occupied: true,
-      shipId: id
+      shipId: id,
     };
   }
 

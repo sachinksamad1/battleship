@@ -8,17 +8,17 @@ export type Coordinate = {
 };
 
 export type Cell = {
-  occupied: boolean;   // True if a ship part is present
-  shipId?: string;     // ID of the ship occupying this cell
-  hit: boolean;        // True if the cell has been attacked
+  occupied: boolean; // True if a ship part is present
+  shipId?: string; // ID of the ship occupying this cell
+  hit: boolean; // True if the cell has been attacked
 };
 
 export type Board = Cell[][];
 
 export type ShipDefinition = {
-  id: string;          // e.g., "carrier", "battleship"
-  name: string;        // Display name
-  length: number;      // Number of cells occupied
+  id: string; // e.g., "carrier", "battleship"
+  name: string; // Display name
+  length: number; // Number of cells occupied
 };
 
 export type ShipState = {
@@ -29,12 +29,7 @@ export type ShipState = {
   sunk: boolean;
 };
 
-export type GamePhase = 
-  | "menu"
-  | "placement"
-  | "matchmaking"
-  | "battle"
-  | "result";
+export type GamePhase = 'menu' | 'placement' | 'matchmaking' | 'battle' | 'result';
 
 export type PlayerState = {
   id: string;
@@ -53,11 +48,11 @@ export type RoomPlayer = {
   connected: boolean;
 };
 
-export type AIDifficulty = "easy" | "medium" | "hard" | "expert";
+export type AIDifficulty = 'easy' | 'medium' | 'hard' | 'expert';
 
 export type AIState = {
   difficulty: AIDifficulty;
-  mode: "hunt" | "target";
+  mode: 'hunt' | 'target';
   targetQueue: Coordinate[];
   probabilityMap?: number[][];
   previousAttacks: Coordinate[];
@@ -66,7 +61,7 @@ export type AIState = {
 
 export type AttackResult = {
   coordinate: Coordinate;
-  result: "hit" | "miss";
+  result: 'hit' | 'miss';
   shipId?: string;
   shipSunk?: boolean;
 };
@@ -74,9 +69,9 @@ export type AttackResult = {
 export const BOARD_SIZE = 10;
 
 export const FLEET_CONFIG: ShipDefinition[] = [
-  { id: "carrier",     name: "Carrier",     length: 5 },
-  { id: "battleship",  name: "Battleship",  length: 4 },
-  { id: "cruiser",     name: "Cruiser",     length: 3 },
-  { id: "submarine",   name: "Submarine",   length: 3 },
-  { id: "destroyer",   name: "Destroyer",   length: 2 },
+  { id: 'carrier', name: 'Carrier', length: 5 },
+  { id: 'battleship', name: 'Battleship', length: 4 },
+  { id: 'cruiser', name: 'Cruiser', length: 3 },
+  { id: 'submarine', name: 'Submarine', length: 3 },
+  { id: 'destroyer', name: 'Destroyer', length: 2 },
 ];

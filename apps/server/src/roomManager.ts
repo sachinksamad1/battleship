@@ -1,5 +1,5 @@
 import { Server, Socket } from 'socket.io';
-import type { Board, ShipState, Coordinate, GamePhase, PlayerState } from './game/types.js';
+import type { Board, ShipState } from './game/types.js';
 import { createBoard } from './game/engine/board.js';
 
 export type Player = {
@@ -33,17 +33,19 @@ export class RoomManager {
     const room: Room = {
       id: roomId,
       joinCode,
-      players: [{
-        id: socket.id,
-        name: playerName,
-        socketId: socket.id,
-        ready: false,
-        board: createBoard(),
-        ships: []
-      }],
+      players: [
+        {
+          id: socket.id,
+          name: playerName,
+          socketId: socket.id,
+          ready: false,
+          board: createBoard(),
+          ships: [],
+        },
+      ],
       status: 'waiting',
       turn: null,
-      winner: null
+      winner: null,
     };
 
     this.rooms.set(roomId, room);
@@ -72,7 +74,7 @@ export class RoomManager {
       socketId: socket.id,
       ready: false,
       board: createBoard(),
-      ships: []
+      ships: [],
     };
 
     room.players.push(player);
@@ -88,7 +90,7 @@ export class RoomManager {
 
     const room = this.rooms.get(roomId);
     if (room) {
-      room.players = room.players.filter(p => p.socketId !== socketId);
+      room.players = room.players.filter((p) => p.socketId !== socketId);
       if (room.players.length === 0) {
         this.rooms.delete(roomId);
       }

@@ -7,18 +7,18 @@ import { BOARD_SIZE } from '../types';
  * @returns A new Board initialized with empty cells.
  */
 export function createBoard(size: number = BOARD_SIZE): Board {
-  const board: Board = [];
-  for (let y = 0; y < size; y++) {
-    const row: Cell[] = [];
-    for (let x = 0; x < size; x++) {
-      row.push({
-        occupied: false,
-        hit: false
-      });
-    }
-    board.push(row);
-  }
-  return board;
+	const board: Board = [];
+	for (let y = 0; y < size; y++) {
+		const row: Cell[] = [];
+		for (let x = 0; x < size; x++) {
+			row.push({
+				occupied: false,
+				hit: false
+			});
+		}
+		board.push(row);
+	}
+	return board;
 }
 
 /**
@@ -28,9 +28,9 @@ export function createBoard(size: number = BOARD_SIZE): Board {
  * @returns The Cell at the coordinate, or null if out of bounds.
  */
 export function getCell(board: Board, coord: Coordinate): Cell | null {
-  const { x, y } = coord;
-  if (y < 0 || y >= board.length || x < 0 || x >= board[y].length) {
-    return null;
-  }
-  return board[y][x];
+	const { x, y } = coord;
+	if (y < 0 || y >= board.length || x < 0 || x >= board[y].length) {
+		return null;
+	}
+	return board[y][x];
 }

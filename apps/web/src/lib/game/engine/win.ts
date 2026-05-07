@@ -6,6 +6,6 @@ import type { ShipState } from '../types';
  * @returns True if all ships are sunk, false otherwise.
  */
 export function isGameOver(ships: ShipState[]): boolean {
-  if (ships.length === 0) return false;
-  return ships.every((ship) => ship.sunk);
+	if (ships.length === 0) return false;
+	return ships.every((ship) => ship.sunk);
 }

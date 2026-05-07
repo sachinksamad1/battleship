@@ -10,7 +10,7 @@ describe('Attack Engine', () => {
   it('should mark a cell as "hit" after an attack (Miss)', () => {
     const board = createBoard();
     const { board: newBoard, result } = resolveAttack(board, { x: 0, y: 0 });
-    
+
     expect(result).toBe('miss');
     expect(newBoard[0][0].hit).toBe(true);
   });
@@ -19,14 +19,14 @@ describe('Attack Engine', () => {
     const board = createBoard();
     const boardWithShip = placeShip(board, destroyer, { x: 0, y: 0 }, 'H');
     const { result } = resolveAttack(boardWithShip, { x: 0, y: 0 });
-    
+
     expect(result).toBe('hit');
   });
 
   it('should correctly identify when a ship is sunk', () => {
     const board = createBoard();
     const boardWithShip = placeShip(board, destroyer, { x: 0, y: 0 }, 'H', 'dest-1');
-    
+
     // First attack: hit but not sunk
     const { board: boardAfterHit1, shipSunk: sunk1 } = resolveAttack(boardWithShip, { x: 0, y: 0 });
     expect(sunk1).toBeUndefined();
@@ -39,7 +39,7 @@ describe('Attack Engine', () => {
   it('should prevent attacking the same coordinate twice', () => {
     const board = createBoard();
     const { board: newBoard } = resolveAttack(board, { x: 0, y: 0 });
-    
+
     expect(() => resolveAttack(newBoard, { x: 0, y: 0 })).toThrow();
   });
 
