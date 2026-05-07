@@ -10,6 +10,7 @@
     "lint": "turbo run lint",
     "format": "turbo run format",
     "check": "turbo run check",
+    "migrate": "echo 'No migrations to run'",
     "pre-deploy": "pnpm run lint && pnpm run check && pnpm run test && pnpm run build"
   },
   "devDependencies": {
